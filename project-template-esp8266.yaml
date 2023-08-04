@@ -17,6 +17,27 @@ esphome:
 esp8266:
   board: esp12e
 
+interval:
+  - interval: 1s
+    then:
+      if:
+        condition:
+          wifi.connected:
+        then:
+        - light.turn_on: wifi_led
+        else:
+        - light.turn_off: wifi_led
+
+  light:
+    platform: binary
+    id: wifi_led
+    output: wifi_led_output
+
+  output:
+    platform: gpio
+    pin: GPIO2
+    id: wifi_led_output
+
 # To be able to get logs from the device via serial and api.
 logger:
 

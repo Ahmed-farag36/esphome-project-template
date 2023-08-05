@@ -30,16 +30,6 @@ web_server:
   include_internal: true
   ota: false
 
-light:
-  platform: binary
-  id: wifi_led
-  output: wifi_led_output
-
-output:
-  platform: gpio
-  pin: GPIO2
-  id: wifi_led_output
-
 # To be able to get logs from the device via serial and api.
 logger:
   baud_rate: 0
@@ -78,6 +68,7 @@ captive_portal:
 # Handy if your device has a usb port for the user to add credentials when they first get it.
 improv_serial:
 
+# Status LED => blinks if WiFi disconnected or no API clients (not connected to Home assistant) or any error
 status_led:
   pin:
     number: GPIO2
@@ -85,9 +76,15 @@ status_led:
 
 light:
   - platform: monochromatic
-    name: presence-sensor-43f85c_blueled
+    name: ${name}_blueled
     output: blue_led
     internal: true # hides the Blue LED from HomeAssistant
+
+output:
+  - platform: esp8266_pwm
+    id: blue_led
+    pin: GPIO2
+    inverted: True
 
 binary_sensor:
   - platform: gpio

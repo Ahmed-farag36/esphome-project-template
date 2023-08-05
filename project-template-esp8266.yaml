@@ -80,12 +80,6 @@ light:
     output: blue_led
     internal: true # hides the Blue LED from HomeAssistant
 
-output:
-  - platform: esp8266_pwm
-    id: blue_led
-    pin: GPIO2
-    inverted: True
-
 binary_sensor:
   - platform: gpio
     name: mmwave_ld2410

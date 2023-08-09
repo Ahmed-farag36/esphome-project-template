@@ -1,26 +1,18 @@
-# These substitutions allow the end user to override certain values
 substitutions:
-  name: "project-template"
-
+name: Presence-sensor
 esphome:
-  name: "${name}"
-  # Automatically add the mac address to the name
-  # so you can use a single firmware for all devices
-  name_add_mac_suffix: true
+  name: ${name}
+  name_add_mac_suffix: True
   friendly_name: "Smartifi presence sensor"
-
-  # This will allow for (future) project identification,
-  # configuration and updates.
-  project:
+  project: 
     name: Smartifi_Egypt.presence_sensor
     version: "1.0.0"
   includes:
     - ld2410.h
-  on_boot:
+  on_boot: 
     priority: -100
     then:
       - switch.turn_on: enable_mmWave
-
 esp8266:
   board: esp12e
 
@@ -30,43 +22,41 @@ web_server:
   include_internal: true
   ota: false
 
-# To be able to get logs from the device via serial and api.
+# Enable logging
 logger:
-  baud_rate: 0
-  logs:
-    sensor: INFO # DEBUG level with uart_target_output = overload!
-    binary_sensor: INFO
-    text_sensor: INFO
+  # baud_rate: 0
+  # logs:
+  #   sensor: INFO # DEBUG level with uart_target_output = overload!
+  #   binary_sensor: INFO
+  #   text_sensor: INFO
 
-# API is a requirement of the dashboard import.
+# Enable Home Assistant API
 api:
 
-# OTA is required for Over-the-Air updating
 ota:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    password: smartifi-egypt
+
+captive_portal:
 
 # This should point to the public location of this yaml file.
 dashboard_import:
   package_import_url: github://Ahmed-farag36/esphome-project-template/project-template-esp8266.yaml@main
   import_full_config: True
 
-wifi:
-  # Set up a wifi access point using the device name above
-  ap:
-    password: "12345678"
-
-# In combination with the `ap` this allows the user
-# to provision wifi credentials to the device.
-captive_portal:
-
-##########################################################
-# Most projects should not remove anything from above here
-# and should just modify the name, project name/version
-# and git url for the dashboard_import
-##########################################################
-
 # Sets up the improv via serial client for Wi-Fi provisioning.
 # Handy if your device has a usb port for the user to add credentials when they first get it.
 improv_serial:
+
+# The main setup is the GPIO PIN below and the
+# tx_pin and rx_pin, please remember rx goes to tx of the
+# sensor and tx to rx.
 
 # Status LED => blinks if WiFi disconnected or no API clients (not connected to Home assistant) or any error
 status_led:
@@ -76,7 +66,7 @@ status_led:
 
 light:
   - platform: monochromatic
-    name: ${name}_blueled
+    name: presence-sensor-43f85c_blueled
     output: blue_led
     internal: true # hides the Blue LED from HomeAssistant
 
@@ -92,7 +82,7 @@ binary_sensor:
     id: pir
     pin: GPIO4
     device_class: motion
-
+  
   - platform: template
     name: Presence
     lambda: |-
@@ -145,7 +135,7 @@ text_sensor:
   - platform: custom
     lambda: |-
       auto c = static_cast<LD2410 *>(ld2410);
-      return {c->version_sensor,
+      return {c->version_sensor, 
               c->staticGateEnergy, c->motionGateEnergy};
 
     text_sensors:
@@ -201,7 +191,7 @@ number:
       - lambda: |-
           auto c = static_cast<LD2410 *>(ld2410);
           c->setMaxDistancesAndNoneDuration(x, id(maxStaticDistance).state, id(noneDuration).state);
-
+  
   - platform: template
     id: maxStaticDistance
     name: Max Static distance
@@ -219,7 +209,7 @@ number:
 
   - platform: template
     id: noneDuration
-    name: Timeout
+    name: Timeout 
     entity_category: config
     update_interval: never
     optimistic: true

@@ -8,7 +8,7 @@
       "chipFamily": "ESP8266",
       "parts": [
         {
-          "path": "project-template-esp8266/project-template-esp8266.bin",
+          "path": "presence-sensor-esp8266/presence-sensor-esp8266.bin",
           "offset": 0
         }
       ]

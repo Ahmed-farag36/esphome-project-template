@@ -1,5 +1,5 @@
 substitutions:
-name: "presence-sensor"
+  name: "presence-sensor"
 esphome:
   name: ${name}
   name_add_mac_suffix: True

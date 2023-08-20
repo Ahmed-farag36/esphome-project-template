@@ -24,6 +24,7 @@ web_server:
 
 # Enable logging
 logger:
+  hardware_uart: UART0_SWAP
   # baud_rate: 0
   # logs:
   #   sensor: INFO # DEBUG level with uart_target_output = overload!

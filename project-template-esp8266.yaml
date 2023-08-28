@@ -9,10 +9,10 @@ esphome:
     version: "1.0.0"
   includes:
     - ld2410.h
-  on_boot: 
-    priority: -100
-    then:
-      - switch.turn_on: enable_mmWave
+  # on_boot: 
+  #   priority: -100
+  #   then:
+  #     - switch.turn_on: enable_mmWave
 esp8266:
   board: esp12e
 
@@ -24,7 +24,7 @@ web_server:
 
 # Enable logging
 logger:
-  hardware_uart: UART0_SWAP
+  # hardware_uart: UART0_SWAP
   # baud_rate: 0
   # logs:
   #   sensor: INFO # DEBUG level with uart_target_output = overload!
